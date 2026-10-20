@@ -1,0 +1,1125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive map – Cornel Nesseler</title>
+  <meta name="description" content="Interactive map of discrimination in German amateur sports clubs, by state and by sport.">
+  <meta name="theme-color" content="#dbeaf6">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="band">
+    <div class="wrap">
+      <p class="sitename"><a href="./">Cornel Nesseler</a></p>
+      <p class="siterole">Professor, University of Stavanger</p>
+    </div>
+  </header>
+  <nav class="sitenav" aria-label="Main">
+    <div class="wrap">
+      <ul>
+        <li><a href="./">Home</a></li>
+        <li><a href="all-publications.html" aria-current="true">Publications</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="data--resources.html">Data &amp; resources</a></li>
+        <li><a href="research-areas.html">Research areas</a></li>
+        <li><a href="apps.html">Apps</a></li>
+      </ul>
+    </div>
+  </nav>
+  <nav class="subnav" aria-label="Publications">
+    <div class="wrap">
+      <ul>
+        <li><a href="all-publications.html">All publications</a></li>
+        <li><a href="work-in-progress.html">Work in progress</a></li>
+        <li><a href="selected-research.html">Selected research</a></li>
+        <li><a href="interactive-map.html" aria-current="page">Interactive map</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main" class="wrap page">
+    <h1>Interactive map</h1>
+    <p class="lede">Results of our field experiment with more than 8,000 sports clubs in Germany, by state and by sport. The full analysis is in the paper <a href="https://doi.org/10.1093/pnasnexus/pgag216">Knocking on sports clubs’ doors</a> (<i>PNAS Nexus</i>, 2026).</p>
+    <div class="widget">
+<!-- =============================================================
+     GERMANY SPORTS CLUB DISCRIMINATION — INTERACTIVE WIDGET
+     Self-contained HTML for embedding in Weebly.
+     Paste the entire contents into a Weebly "Embed Code" element.
+     ============================================================= -->
+<div id="dsc-map-root">
+<style>
+  #dsc-map-root, #dsc-map-root * { box-sizing: border-box; }
+  #dsc-map-root {
+    --bg: #faf7f2;
+    --bg-soft: #f1ebdd;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --line: #d8d2c4;
+    --accent: #8a1c1c;
+    --accent-blue: #2c5d8a;
+    --panel: #ffffff;
+
+    --c-no-data: #1a1a1a;
+
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    color: var(--ink);
+    background: var(--bg);
+    padding: 28px 22px 32px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    max-width: 1100px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  /* Header */
+  #dsc-map-root .dsc-header {
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  #dsc-map-root .dsc-eyebrow {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin-bottom: 8px;
+  }
+  #dsc-map-root .dsc-title {
+    font-size: 28px; line-height: 1.15; margin: 0 0 6px;
+    font-weight: 700; letter-spacing: -0.01em;
+  }
+  #dsc-map-root .dsc-subtitle {
+    font-size: 14px; color: var(--ink-soft); font-style: italic; margin: 0;
+  }
+
+  /* View toggle — segmented control */
+  #dsc-map-root .dsc-view-toggle {
+    display: inline-flex;
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    margin-bottom: 16px;
+    background: var(--panel);
+    overflow: hidden;
+  }
+  #dsc-map-root .dsc-view-toggle button {
+    background: none;
+    border: none;
+    padding: 9px 18px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-soft); font-weight: 600;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+    border-right: 1px solid var(--line);
+  }
+  #dsc-map-root .dsc-view-toggle button:last-child { border-right: none; }
+  #dsc-map-root .dsc-view-toggle button:hover { color: var(--ink); }
+  #dsc-map-root .dsc-view-toggle button.active {
+    background: var(--ink); color: var(--bg); font-weight: 700;
+  }
+
+  /* Controls */
+  #dsc-map-root .dsc-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+  }
+  #dsc-map-root .dsc-control label {
+    display: block;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-soft); font-weight: 600; margin-bottom: 6px;
+  }
+  #dsc-map-root .dsc-control select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    font-family: Georgia, serif;
+    font-size: 14px; color: var(--ink);
+    border-radius: 2px; cursor: pointer;
+    transition: border-color .15s;
+  }
+  #dsc-map-root .dsc-control select:hover { border-color: var(--ink); }
+  #dsc-map-root .dsc-control select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  #dsc-map-root .dsc-control select:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* Main layout */
+  #dsc-map-root .dsc-main {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 760px) {
+    #dsc-map-root .dsc-main { grid-template-columns: 1fr; }
+    #dsc-map-root .dsc-title { font-size: 22px; }
+    #dsc-map-root .dsc-view-toggle button { padding: 8px 12px; font-size: 10px; }
+  }
+
+  /* Map / canvas wrap */
+  #dsc-map-root .dsc-canvas {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 14px;
+    position: relative;
+    min-height: 480px;
+  }
+  #dsc-map-root .dsc-map-svg { width: 100%; height: auto; display: block; }
+  #dsc-map-root .dsc-state {
+    stroke: #2a2a2a; stroke-width: 0.6; cursor: pointer;
+    transition: filter .15s, stroke-width .15s;
+  }
+  #dsc-map-root .dsc-state:hover {
+    stroke-width: 1.6;
+    filter: brightness(1.05) drop-shadow(0 2px 4px rgba(0,0,0,.18));
+  }
+  #dsc-map-root .dsc-state.selected { stroke: var(--accent); stroke-width: 2.4; }
+
+  #dsc-map-root .dsc-loading {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-soft); font-style: italic;
+  }
+
+  /* Sports icon grid */
+  #dsc-map-root .dsc-sports-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    padding: 4px 0;
+  }
+  #dsc-map-root .dsc-sport-card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 0 0 14px;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #dsc-map-root .dsc-sport-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,.08);
+    border-color: var(--ink-soft);
+  }
+  #dsc-map-root .dsc-sport-card.selected {
+    border-color: var(--accent);
+    border-width: 2px;
+  }
+  /* Discrimination band — colored using the same scale as the map */
+  #dsc-map-root .dsc-sport-band {
+    height: 32px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 12px; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  #dsc-map-root .dsc-sport-band-label {
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 600; opacity: .7; margin-right: 6px;
+  }
+  #dsc-map-root .dsc-sport-body { padding: 14px 14px 0; }
+  #dsc-map-root .dsc-sport-icon {
+    width: 44px; height: 44px;
+    margin: 0 auto 8px;
+    color: var(--ink);
+  }
+  #dsc-map-root .dsc-sport-name {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-soft); font-weight: 600; margin-bottom: 6px;
+  }
+  #dsc-map-root .dsc-sport-rate {
+    font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums;
+    margin-bottom: 2px;
+  }
+  #dsc-map-root .dsc-sport-rate-label {
+    font-size: 10px; letter-spacing: 0.06em;
+    color: #999; font-family: "Helvetica Neue", Arial, sans-serif;
+    margin-bottom: 8px;
+  }
+  #dsc-map-root .dsc-sport-meta {
+    font-size: 10px; color: #999; font-family: "Helvetica Neue", Arial, sans-serif;
+    letter-spacing: 0.04em;
+  }
+
+  /* Legend (map only) */
+  #dsc-map-root .dsc-legend {
+    margin-top: 12px;
+    padding: 12px 4px 4px;
+    border-top: 1px dotted var(--line);
+  }
+  #dsc-map-root .dsc-legend-title {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-soft); font-weight: 600; margin-bottom: 8px;
+  }
+  #dsc-map-root .dsc-legend-bar {
+    display: flex; height: 14px; border: 1px solid var(--ink);
+  }
+  #dsc-map-root .dsc-legend-bar > div { flex: 1; }
+  #dsc-map-root .dsc-legend-labels {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--ink-soft); margin-top: 4px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+  #dsc-map-root .dsc-legend-nodata {
+    margin-top: 8px; display: flex; align-items: center; gap: 8px;
+    font-size: 11px; color: var(--ink-soft);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+  #dsc-map-root .dsc-legend-nodata-swatch {
+    width: 14px; height: 14px; background: var(--c-no-data);
+    border: 1px solid var(--ink);
+  }
+
+  /* Right panel */
+  #dsc-map-root .dsc-panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 18px 18px 16px;
+    min-height: 480px;
+    display: flex; flex-direction: column;
+  }
+  #dsc-map-root .dsc-panel h3 {
+    font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 4px;
+    font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 700;
+  }
+  #dsc-map-root .dsc-panel .dsc-state-name {
+    font-size: 22px; font-weight: 700; margin: 0 0 14px;
+    letter-spacing: -0.005em;
+  }
+
+  #dsc-map-root .dsc-stat-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--line);
+  }
+  #dsc-map-root .dsc-stat-row:last-child { border-bottom: none; }
+  #dsc-map-root .dsc-stat-label {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 12px; color: var(--ink-soft); letter-spacing: 0.02em;
+  }
+  #dsc-map-root .dsc-stat-value {
+    font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums;
+  }
+  #dsc-map-root .dsc-stat-n {
+    font-size: 11px; color: #999; font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 400; margin-left: 6px;
+  }
+
+  #dsc-map-root .dsc-discrim-banner {
+    margin: 14px 0 0; padding: 14px;
+    background: var(--bg);
+    border-left: 4px solid var(--accent);
+    text-align: center;
+  }
+  #dsc-map-root .dsc-discrim-label {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-soft); font-weight: 600;
+  }
+  #dsc-map-root .dsc-discrim-num {
+    font-size: 30px; font-weight: 700;
+    font-variant-numeric: tabular-nums; margin-top: 2px;
+  }
+  #dsc-map-root .dsc-discrim-explainer {
+    font-size: 12px; color: var(--ink-soft); font-style: italic; margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* Bottom tabs/bars */
+  #dsc-map-root .dsc-tabs {
+    display: flex; gap: 0; margin: 16px 0 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  #dsc-map-root .dsc-tab {
+    background: none; border: none; padding: 8px 12px 6px;
+    font-family: "Helvetica Neue", Arial, sans-serif; font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft);
+    cursor: pointer; border-bottom: 2px solid transparent;
+    margin-bottom: -1px; transition: color .15s, border-color .15s;
+  }
+  #dsc-map-root .dsc-tab:hover { color: var(--ink); }
+  #dsc-map-root .dsc-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 700; }
+
+  #dsc-map-root .dsc-bars { padding: 4px 0 0; }
+  #dsc-map-root .dsc-bar-row { margin-bottom: 12px; }
+  #dsc-map-root .dsc-bar-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 13px; margin-bottom: 4px;
+  }
+  #dsc-map-root .dsc-bar-name { font-weight: 700; }
+  #dsc-map-root .dsc-bar-val { font-variant-numeric: tabular-nums; font-weight: 600; }
+  #dsc-map-root .dsc-bar-track {
+    height: 8px; background: #ece6d8; position: relative; border-radius: 1px; overflow: hidden;
+  }
+  #dsc-map-root .dsc-bar-fill {
+    height: 100%; background: var(--accent); transition: width .35s ease;
+  }
+  #dsc-map-root .dsc-bar-meta {
+    font-size: 11px; color: #999; font-family: "Helvetica Neue", Arial, sans-serif;
+    margin-top: 3px;
+  }
+
+  /* Footnote */
+  #dsc-map-root .dsc-footnote {
+    margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--line);
+    font-size: 12px; color: var(--ink-soft); line-height: 1.5;
+  }
+  #dsc-map-root .dsc-footnote strong { color: var(--ink); }
+
+  /* Tooltip */
+  #dsc-map-root .dsc-tooltip {
+    position: absolute; pointer-events: none;
+    background: #1a1a1a; color: #fff; padding: 8px 10px;
+    font-family: "Helvetica Neue", Arial, sans-serif; font-size: 12px;
+    border-radius: 2px; box-shadow: 0 4px 12px rgba(0,0,0,.25);
+    opacity: 0; transition: opacity .12s; z-index: 100;
+    max-width: 240px; line-height: 1.4;
+  }
+  #dsc-map-root .dsc-tooltip strong { display: block; font-size: 13px; margin-bottom: 2px; }
+  #dsc-map-root .dsc-tooltip .dsc-t-num { font-weight: 700; color: #ffb3b3; }
+
+  #dsc-map-root .dsc-hidden { display: none !important; }
+</style>
+
+<div class="dsc-header">
+  <div class="dsc-eyebrow">Field Experiment · Sports Clubs in Germany</div>
+  <h2 class="dsc-title">Discrimination in amateur sports clubs</h2>
+  <p class="dsc-subtitle">Response rates to email inquiries from senders with German- vs. foreign-sounding names</p>
+</div>
+
+<div class="dsc-view-toggle" role="tablist">
+  <button id="dsc-view-map" class="active" data-view="map">Map of Germany</button>
+  <button id="dsc-view-sports" data-view="sports">By sport</button>
+</div>
+
+<div class="dsc-controls">
+  <div class="dsc-control">
+    <label for="dsc-cmp">Comparison</label>
+    <select id="dsc-cmp">
+      <option value="native_vs_foreign" selected>German vs. foreign-sounding</option>
+      <option value="female_vs_male">Female vs. male names</option>
+    </select>
+  </div>
+  <div class="dsc-control">
+    <label for="dsc-gender">Gender filter</label>
+    <select id="dsc-gender">
+      <option value="all" selected>All names</option>
+      <option value="female">Only female names</option>
+      <option value="male">Only male names</option>
+    </select>
+  </div>
+  <div class="dsc-control">
+    <label for="dsc-cond">Fee-question condition</label>
+    <select id="dsc-cond">
+      <option value="all" selected>Both conditions combined</option>
+      <option value="c0">Only without fee question</option>
+      <option value="c1">Only with fee question</option>
+    </select>
+  </div>
+  <div class="dsc-control">
+    <label for="dsc-origin">Foreign-sounding name</label>
+    <select id="dsc-origin">
+      <option value="all" selected>All foreign (combined)</option>
+      <option value="Turkish">Turkish</option>
+      <option value="Syrian">Syrian</option>
+      <option value="Ukrainian">Ukrainian</option>
+    </select>
+  </div>
+</div>
+
+<div class="dsc-main">
+  <div class="dsc-canvas" id="dsc-canvas">
+    <div id="dsc-view-map-content">
+      <svg class="dsc-map-svg" id="dsc-svg" viewBox="0 0 600 720" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="dsc-loading" id="dsc-loading">Loading map…</div>
+      <div class="dsc-legend">
+        <div class="dsc-legend-title">Discrimination (percentage-point gap)</div>
+        <div class="dsc-legend-bar" id="dsc-legend-bar"></div>
+        <div class="dsc-legend-labels">
+          <span>−10pp (reverse)</span>
+          <span>0</span>
+          <span>+10pp</span>
+          <span>+20pp+</span>
+        </div>
+        <div class="dsc-legend-nodata">
+          <div class="dsc-legend-nodata-swatch"></div>
+          <span>No data / cell too small (n &lt; 10)</span>
+        </div>
+      </div>
+    </div>
+    <div id="dsc-view-sports-content" class="dsc-hidden">
+      <div class="dsc-sports-grid" id="dsc-sports-grid"></div>
+      <div class="dsc-legend" style="margin-top:18px;">
+        <div class="dsc-legend-title">Discrimination by sport (German − foreign, percentage points)</div>
+        <div class="dsc-legend-bar" id="dsc-legend-bar-sports"></div>
+        <div class="dsc-legend-labels">
+          <span>−10pp (reverse)</span>
+          <span>0</span>
+          <span>+10pp</span>
+          <span>+20pp+</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dsc-tooltip" id="dsc-tooltip"></div>
+  </div>
+
+  <div class="dsc-panel">
+    <h3 id="dsc-panel-eyebrow">Selected region</h3>
+    <div class="dsc-state-name" id="dsc-panel-name">All of Germany</div>
+
+    <div id="dsc-stats"></div>
+
+    <div class="dsc-discrim-banner">
+      <div class="dsc-discrim-label" id="dsc-banner-label">Discrimination gap</div>
+      <div class="dsc-discrim-num" id="dsc-banner-num">—</div>
+      <div class="dsc-discrim-explainer" id="dsc-banner-exp"></div>
+    </div>
+
+    <div class="dsc-tabs">
+      <button class="dsc-tab active" data-tab="origin">By origin</button>
+      <button class="dsc-tab" data-tab="sport">By sport</button>
+    </div>
+    <div class="dsc-bars" id="dsc-bars"></div>
+  </div>
+</div>
+
+<div class="dsc-footnote">
+  <strong>How to read this widget.</strong> Discrimination is the percentage-point gap in positive response rates between German-sounding and foreign-sounding senders (Turkish, Syrian, or Ukrainian), or between male and female senders. Positive values (red) mean the reference group received more positive replies; negative values (blue) mean the reverse.
+  <strong>State map:</strong> coloring uses German vs. foreign or female vs. male — the breakdowns available at the state level. The gender filter, foreign-origin filter, and combinations modify the figures shown in the right-hand panel at the national level, since cell sizes for these crosses by state are too small to be reliable. <strong>Sport view:</strong> sport icons are colored by the German-vs-foreign discrimination gap at the national level; the four filters above are not yet applied here, since gender × origin × sport breakdowns are not in the source.
+
+  <div style="margin-top: 12px; padding: 10px 12px; background: #fff7ec; border: 1px solid #e8c989; border-radius: 3px; font-size: 11.5px; line-height: 1.5;">
+    <strong style="color: #8a5a1c;">⚠ AI-generated visualisation.</strong> This interactive widget was built by an AI assistant from summary statistics. The figures shown have not been independently re-verified, and the visual coding may simplify or round results. <strong>For the authoritative numbers and full statistical analysis, please consult the original publication.</strong>
+  </div>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script>
+(function(){
+  const DATA = {
+    states: {"Baden-Württemberg": {"all": 0.5589888, "native": 0.6096654, "foreign": 0.5419274, "all_c0": 0.5522682, "native_c0": 0.610687, "foreign_c0": 0.5319149, "all_c1": 0.5650624, "native_c1": 0.6086957, "foreign_c1": 0.5508274, "female": 0.5219298, "male": 0.5866013, "n_all": 1068, "n_native": 269, "n_foreign": 799, "n_native_c0": 131, "n_foreign_c0": 376, "n_native_c1": 138, "n_foreign_c1": 423, "n_female": 456, "n_male": 612}, "Bayern": {"all": 0.5349048, "native": 0.6205674, "foreign": 0.5054811, "all_c0": 0.532833, "native_c0": 0.6296296, "foreign_c0": 0.5, "all_c1": 0.5368421, "native_c1": 0.6122449, "foreign_c1": 0.5106383, "female": 0.5309381, "male": 0.538206, "n_all": 1103, "n_native": 282, "n_foreign": 821, "n_native_c0": 135, "n_foreign_c0": 398, "n_native_c1": 147, "n_foreign_c1": 423, "n_female": 501, "n_male": 602}, "Berlin": {"all": 0.375, "native": 0.3913043, "foreign": 0.3673469, "all_c0": 0.3243243, "native_c0": 0.2222222, "foreign_c0": 0.3571429, "all_c1": 0.4285714, "native_c1": 0.5, "foreign_c1": 0.3809524, "female": 0.3225806, "male": 0.4146341, "n_all": 72, "n_native": 23, "n_foreign": 49, "n_native_c0": 9, "n_foreign_c0": 28, "n_native_c1": 14, "n_foreign_c1": 21, "n_female": 31, "n_male": 41}, "Brandenburg": {"all": 0.3785311, "native": 0.4901961, "foreign": 0.3333333, "all_c0": 0.3953488, "native_c0": 0.5862069, "foreign_c0": 0.2982456, "all_c1": 0.3626374, "native_c1": 0.3636364, "foreign_c1": 0.3623188, "female": 0.4057971, "male": 0.3611111, "n_all": 177, "n_native": 51, "n_foreign": 126, "n_native_c0": 29, "n_foreign_c0": 57, "n_native_c1": 22, "n_foreign_c1": 69, "n_female": 69, "n_male": 108}, "Bremen": {"all": 0.3809524, "native": 0.4444444, "foreign": 0.3636364, "all_c0": 0.2857143, "native_c0": 0.0, "foreign_c0": 0.3529412, "all_c1": 0.4761905, "native_c1": 0.8, "foreign_c1": 0.375, "female": 0.5625, "male": 0.2692308, "n_all": 42, "n_native": 9, "n_foreign": 33, "n_native_c0": 4, "n_foreign_c0": 17, "n_native_c1": 5, "n_foreign_c1": 16, "n_female": 16, "n_male": 26}, "Hamburg": {"all": 0.4339623, "native": 0.5, "foreign": 0.4054054, "all_c0": 0.4285714, "native_c0": 0.5, "foreign_c0": 0.4117647, "all_c1": 0.4375, "native_c1": 0.5, "foreign_c1": 0.4, "female": 0.45, "male": 0.4242424, "n_all": 53, "n_native": 16, "n_foreign": 37, "n_native_c0": 4, "n_foreign_c0": 17, "n_native_c1": 12, "n_foreign_c1": 20, "n_female": 20, "n_male": 33}, "Hessen": {"all": 0.4260731, "native": 0.4906832, "foreign": 0.4038462, "all_c0": 0.44, "native_c0": 0.4698795, "foreign_c0": 0.4285714, "all_c1": 0.4133739, "native_c1": 0.5128205, "foreign_c1": 0.3824701, "female": 0.4022556, "male": 0.4435262, "n_all": 629, "n_native": 161, "n_foreign": 468, "n_native_c0": 83, "n_foreign_c0": 217, "n_native_c1": 78, "n_foreign_c1": 251, "n_female": 266, "n_male": 363}, "Mecklenburg-Vorpommern": {"all": 0.3875969, "native": 0.36, "foreign": 0.3942308, "all_c0": 0.3492063, "native_c0": 0.3636364, "foreign_c0": 0.3461538, "all_c1": 0.4242424, "native_c1": 0.3571429, "foreign_c1": 0.4423077, "female": 0.3454545, "male": 0.4189189, "n_all": 129, "n_native": 25, "n_foreign": 104, "n_native_c0": 11, "n_foreign_c0": 52, "n_native_c1": 14, "n_foreign_c1": 52, "n_female": 55, "n_male": 74}, "Niedersachsen": {"all": 0.4150943, "native": 0.45, "foreign": 0.4044549, "all_c0": 0.4285714, "native_c0": 0.4379562, "foreign_c0": 0.4253165, "all_c1": 0.4027539, "native_c1": 0.4634146, "foreign_c1": 0.3864629, "female": 0.3830645, "male": 0.4408428, "n_all": 1113, "n_native": 260, "n_foreign": 853, "n_native_c0": 137, "n_foreign_c0": 395, "n_native_c1": 123, "n_foreign_c1": 458, "n_female": 496, "n_male": 617}, "Nordrhein-Westfalen": {"all": 0.4606972, "native": 0.4768786, "foreign": 0.4556849, "all_c0": 0.4806548, "native_c0": 0.4817073, "foreign_c0": 0.480315, "all_c1": 0.4437421, "native_c1": 0.4725275, "foreign_c1": 0.4351396, "female": 0.4765625, "male": 0.4483597, "n_all": 1463, "n_native": 346, "n_foreign": 1117, "n_native_c0": 164, "n_foreign_c0": 508, "n_native_c1": 182, "n_foreign_c1": 609, "n_female": 640, "n_male": 823}, "Rheinland-Pfalz": {"all": 0.4884793, "native": 0.5185185, "foreign": 0.4785276, "all_c0": 0.5093458, "native_c0": 0.5272727, "foreign_c0": 0.5031447, "all_c1": 0.4681818, "native_c1": 0.509434, "foreign_c1": 0.4550898, "female": 0.5135135, "male": 0.4698795, "n_all": 434, "n_native": 108, "n_foreign": 326, "n_native_c0": 55, "n_foreign_c0": 159, "n_native_c1": 53, "n_foreign_c1": 167, "n_female": 185, "n_male": 249}, "Saarland": {"all": 0.4040404, "native": 0.4814815, "foreign": 0.375, "all_c0": 0.4375, "native_c0": 0.5, "foreign_c0": 0.40625, "all_c1": 0.372549, "native_c1": 0.4545455, "foreign_c1": 0.35, "female": 0.3589744, "male": 0.4333333, "n_all": 99, "n_native": 27, "n_foreign": 72, "n_native_c0": 16, "n_foreign_c0": 32, "n_native_c1": 11, "n_foreign_c1": 40, "n_female": 39, "n_male": 60}, "Sachsen": {"all": 0.3076923, "native": 0.4137931, "foreign": 0.2772277, "all_c0": 0.3692308, "native_c0": 0.4210526, "foreign_c0": 0.3478261, "all_c1": 0.2461538, "native_c1": 0.4, "foreign_c1": 0.2181818, "female": 0.2352941, "male": 0.3870968, "n_all": 130, "n_native": 29, "n_foreign": 101, "n_native_c0": 19, "n_foreign_c0": 46, "n_native_c1": 10, "n_foreign_c1": 55, "n_female": 68, "n_male": 62}, "Sachsen-Anhalt": {"all": 0.3103448, "native": 0.3846154, "foreign": 0.2888889, "all_c0": 0.3, "native_c0": 0.2777778, "foreign_c0": 0.3064516, "all_c1": 0.3191489, "native_c1": 0.4761905, "foreign_c1": 0.2739726, "female": 0.3529412, "male": 0.2830189, "n_all": 174, "n_native": 39, "n_foreign": 135, "n_native_c0": 18, "n_foreign_c0": 62, "n_native_c1": 21, "n_foreign_c1": 73, "n_female": 68, "n_male": 106}, "Schleswig-Holstein": {"all": 0.4600939, "native": 0.4130435, "foreign": 0.4730539, "all_c0": 0.4509804, "native_c0": 0.4, "foreign_c0": 0.4634146, "all_c1": 0.4684685, "native_c1": 0.4230769, "foreign_c1": 0.4823529, "female": 0.4811321, "male": 0.4392523, "n_all": 213, "n_native": 46, "n_foreign": 167, "n_native_c0": 20, "n_foreign_c0": 82, "n_native_c1": 26, "n_foreign_c1": 85, "n_female": 106, "n_male": 107}, "Thüringen": {"all": 0.375, "native": 0.4, "foreign": 0.3660714, "all_c0": 0.4, "native_c0": 0.4705882, "foreign_c0": 0.3793103, "all_c1": 0.3506494, "native_c1": 0.3478261, "foreign_c1": 0.3518519, "female": 0.3333333, "male": 0.4069767, "n_all": 152, "n_native": 40, "n_foreign": 112, "n_native_c0": 17, "n_foreign_c0": 58, "n_native_c1": 23, "n_foreign_c1": 54, "n_female": 66, "n_male": 86}},
+    national: {"overall": {"all": 0.4644731, "n": 7051, "native": 0.5118429, "n_native": 1731, "foreign": 0.4490602, "n_foreign": 5320, "female": 0.4552239, "n_female": 3082, "male": 0.4716553, "n_male": 3969, "turkish": 0.452714, "n_turkish": 1787, "ukrainian": 0.4584958, "n_ukrainian": 1795, "syrian": 0.4355581, "n_syrian": 1738}, "by_origin_vs_native": {"Turkish": {"rate": 0.452714, "n": 1787, "discrimination": 0.059128899999999984}, "Syrian": {"rate": 0.4355581, "n": 1738, "discrimination": 0.07628479999999999}, "Ukrainian": {"rate": 0.4584958, "n": 1795, "discrimination": 0.05334709999999998}}, "by_sport": {"Football": {"all": 0.4107744, "n": 1188, "female": 0.3644444, "male": 0.4215992, "n_female": 225, "n_male": 963, "foreign_rate": 0.4144444, "n_foreign": 900, "native_rate": 0.3993056, "n_native": 288, "discrimination": -1.5138800000000008}, "Golf": {"all": 0.7885375, "n": 506, "female": 0.7596899, "male": 0.8185484, "n_female": 258, "n_male": 248, "foreign_rate": 0.7935657, "n_foreign": 373, "native_rate": 0.7744361, "n_native": 133, "discrimination": -1.912960000000008}, "Handball": {"all": 0.4256671, "n": 787, "female": 0.4113712, "male": 0.4344262, "n_female": 299, "n_male": 488, "foreign_rate": 0.4187605, "n_foreign": 597, "native_rate": 0.4473684, "n_native": 190, "discrimination": 2.860790000000002}, "Horseriding": {"all": 0.2126246, "n": 1204, "female": 0.2483333, "male": 0.1771523, "n_female": 600, "n_male": 604, "foreign_rate": 0.1913043, "n_foreign": 920, "native_rate": 0.2816901, "n_native": 284, "discrimination": 9.03858}, "Shooting": {"all": 0.4503311, "n": 755, "female": 0.3753149, "male": 0.5335196, "n_female": 397, "n_male": 358, "foreign_rate": 0.4300885, "n_foreign": 565, "native_rate": 0.5105263, "n_native": 190, "discrimination": 8.04378}, "Tabletennis": {"all": 0.5246868, "n": 1357, "female": 0.5132353, "male": 0.5361891, "n_female": 680, "n_male": 677, "foreign_rate": 0.4965787, "n_foreign": 1023, "native_rate": 0.6107784, "n_native": 334, "discrimination": 11.419970000000006}, "Tennis": {"all": 0.5940989, "n": 1254, "female": 0.5698234, "male": 0.6180666, "n_female": 623, "n_male": 631, "foreign_rate": 0.5764331, "n_foreign": 942, "native_rate": 0.6474359, "n_native": 312, "discrimination": 7.100279999999993}}, "cross_gender_origin": {"foreign_female": {"rate": 0.4387318, "n": 2334}, "foreign_male": {"rate": 0.4571333, "n": 2986}, "native_female": {"rate": 0.5066845, "n": 748}, "native_male": {"rate": 0.5157681, "n": 983}}}
+  };
+
+  const NAME_ALIASES = {
+    "Baden-Württemberg":      ["Baden-Württemberg","Baden-Wuerttemberg","Baden-Wurttemberg"],
+    "Bayern":                 ["Bayern","Bavaria"],
+    "Berlin":                 ["Berlin"],
+    "Brandenburg":            ["Brandenburg"],
+    "Bremen":                 ["Bremen"],
+    "Hamburg":                ["Hamburg"],
+    "Hessen":                 ["Hessen","Hesse"],
+    "Mecklenburg-Vorpommern": ["Mecklenburg-Vorpommern","Mecklenburg-Western Pomerania"],
+    "Niedersachsen":          ["Niedersachsen","Lower Saxony"],
+    "Nordrhein-Westfalen":    ["Nordrhein-Westfalen","North Rhine-Westphalia"],
+    "Rheinland-Pfalz":        ["Rheinland-Pfalz","Rhineland-Palatinate"],
+    "Saarland":               ["Saarland"],
+    "Sachsen":                ["Sachsen","Saxony"],
+    "Sachsen-Anhalt":         ["Sachsen-Anhalt","Saxony-Anhalt"],
+    "Schleswig-Holstein":     ["Schleswig-Holstein"],
+    "Thüringen":              ["Thüringen","Thuringia","Thueringen"]
+  };
+  function canonicalName(featureName){
+    if(!featureName) return null;
+    const n = featureName.trim();
+    for(const [canon, aliases] of Object.entries(NAME_ALIASES)){
+      if(aliases.some(a => a.toLowerCase() === n.toLowerCase())) return canon;
+    }
+    return null;
+  }
+
+  const SPORT_ICONS = {
+    "Football":    '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><circle cx="24" cy="24" r="18"/><polygon points="24,14 32,20 29,30 19,30 16,20" fill="currentColor" fill-opacity="0.15"/><path d="M24 6 L24 14 M30 20 L38 18 M29 30 L34 36 M19 30 L14 36 M16 20 L8 18"/></svg>',
+    "Golf":        '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M22 38 L22 8 L34 14 L22 18" fill="currentColor" fill-opacity="0.15"/><circle cx="22" cy="40" r="3" fill="currentColor"/><path d="M14 42 Q24 40 32 42"/></svg>',
+    "Handball":    '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><circle cx="24" cy="24" r="14"/><path d="M16 18 Q24 22 32 18 M16 30 Q24 26 32 30 M20 12 Q24 24 20 36 M28 12 Q24 24 28 36"/></svg>',
+    "Horseriding": '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M8 32 L12 28 L18 30 L22 26 L28 26 L34 22 L38 14 L42 16 L40 22 L36 28 L34 36 L30 38 L28 30 L20 32 L18 38 L14 38 L12 34 Z" fill="currentColor" fill-opacity="0.1"/><circle cx="36" cy="18" r="1.5" fill="currentColor"/></svg>',
+    "Shooting":    '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><circle cx="24" cy="24" r="16"/><circle cx="24" cy="24" r="10"/><circle cx="24" cy="24" r="4" fill="currentColor"/><path d="M24 4 L24 12 M24 36 L24 44 M4 24 L12 24 M36 24 L44 24"/></svg>',
+    "Tabletennis": '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><ellipse cx="20" cy="22" rx="11" ry="13" transform="rotate(-30 20 22)" fill="currentColor" fill-opacity="0.1"/><path d="M28 28 L38 38" stroke-width="3"/><circle cx="34" cy="14" r="3" fill="currentColor"/></svg>',
+    "Tennis":      '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><circle cx="24" cy="24" r="14"/><path d="M11 19 Q24 24 37 19 M11 29 Q24 24 37 29"/></svg>'
+  };
+
+  let currentView = "map";
+  let currentCmp = "native_vs_foreign";
+  let currentGender = "all";
+  let currentCond = "all";
+  let currentOrigin = "all";
+  let selectedState = null;
+  let selectedSport = null;
+  let currentTab = "origin";
+  let svgPaths = null;
+
+  function colorFor(disc){
+    if(disc === null || disc === undefined || isNaN(disc)) return "#1a1a1a";
+    if(disc <= -10) return "#a8cadd";
+    if(disc < -3)   return d3.interpolateRgb("#a8cadd","#d6e6f0")((disc + 10)/7);
+    if(disc < 0)    return d3.interpolateRgb("#d6e6f0","#ffffff")((disc + 3)/3);
+    if(disc < 5)    return d3.interpolateRgb("#ffffff","#f1b9b9")(disc/5);
+    if(disc < 10)   return d3.interpolateRgb("#f1b9b9","#d97474")((disc-5)/5);
+    if(disc < 15)   return d3.interpolateRgb("#d97474","#b63838")((disc-10)/5);
+    if(disc < 20)   return d3.interpolateRgb("#b63838","#8a1c1c")((disc-15)/5);
+    return "#5c0a0a";
+  }
+  function buildLegend(){
+    for(const id of ["dsc-legend-bar","dsc-legend-bar-sports"]){
+      const bar = document.getElementById(id);
+      if(!bar) continue;
+      bar.innerHTML = "";
+      for(let i=-10; i<=20; i++){
+        const d = document.createElement("div");
+        d.style.background = colorFor(i);
+        bar.appendChild(d);
+      }
+    }
+  }
+  buildLegend();
+
+  function fmtPct(x){ if(x===null||x===undefined||isNaN(x)) return "—"; return (x*100).toFixed(1)+"%"; }
+  function fmtPp(x){ if(x===null||x===undefined||isNaN(x)) return "—"; return (x>=0?"+":"") + x.toFixed(1) + " pp"; }
+  function discColor(d){
+    if(d === null || d === undefined || isNaN(d)) return "var(--ink-soft)";
+    return d > 0.5 ? "var(--accent)" : d < -0.5 ? "var(--accent-blue)" : "var(--ink)";
+  }
+
+  const MIN_N = 10;
+  function computeStateMetric(stateName){
+    const s = DATA.states[stateName];
+    if(!s) return {disc:null};
+
+    if(currentCmp === "native_vs_foreign"){
+      let refKey, otherKey, refNKey, otherNKey;
+      if(currentCond === "all"){
+        refKey="native"; otherKey="foreign"; refNKey="n_native"; otherNKey="n_foreign";
+      } else if(currentCond === "c0"){
+        refKey="native_c0"; otherKey="foreign_c0"; refNKey="n_native_c0"; otherNKey="n_foreign_c0";
+      } else {
+        refKey="native_c1"; otherKey="foreign_c1"; refNKey="n_native_c1"; otherNKey="n_foreign_c1";
+      }
+      const ref = s[refKey], other = s[otherKey];
+      const rn = s[refNKey], on = s[otherNKey];
+      if(ref === undefined || other === undefined || rn < MIN_N || on < MIN_N){
+        return {disc:null, refRate:ref, otherRate:other, refN:rn, otherN:on,
+                refLabel:"German-sounding", otherLabel:"Foreign-sounding"};
+      }
+      return {
+        disc: (ref - other) * 100,
+        refRate: ref, otherRate: other,
+        refN: rn, otherN: on,
+        refLabel: "German-sounding", otherLabel: "Foreign-sounding"
+      };
+    } else {
+      const f = s.female, m = s.male;
+      const fn = s.n_female, mn = s.n_male;
+      if(currentCond !== "all"){
+        return {disc:null, refRate:m, otherRate:f, refN:mn, otherN:fn,
+                refLabel:"Male names", otherLabel:"Female names",
+                note:"Gender × condition not available at state level"};
+      }
+      if(f === undefined || m === undefined || fn < MIN_N || mn < MIN_N){
+        return {disc:null, refRate:m, otherRate:f, refN:mn, otherN:fn,
+                refLabel:"Male names", otherLabel:"Female names"};
+      }
+      return {
+        disc: (m - f) * 100,
+        refRate: m, otherRate: f, refN: mn, otherN: fn,
+        refLabel: "Male names", otherLabel: "Female names"
+      };
+    }
+  }
+
+  // National-level metric combining all filters
+  function computeNationalMetric(){
+    const N = DATA.national;
+    const ovr = N.overall;
+
+    if(currentCmp === "female_vs_male"){
+      return {
+        refLabel: "Male names", otherLabel: "Female names",
+        refRate: ovr.male, otherRate: ovr.female,
+        refN: ovr.n_male, otherN: ovr.n_female,
+        disc: (ovr.male - ovr.female) * 100,
+        scope: "All names · all conditions",
+        notes: (currentCond !== "all" || currentGender !== "all" || currentOrigin !== "all")
+          ? "Other filters do not apply when comparing male vs. female overall."
+          : null
+      };
+    }
+
+    let refLabel = "German-sounding";
+    let otherLabel = "Foreign-sounding (combined)";
+    if(currentOrigin !== "all") otherLabel = currentOrigin + "-sounding";
+
+    let refRate = ovr.native, refN = ovr.n_native;
+    let otherRate, otherN;
+    let scopeBits = [];
+    let notes = null;
+
+    if(currentOrigin !== "all"){
+      const key = currentOrigin.toLowerCase();
+      otherRate = ovr[key];
+      otherN = ovr["n_" + key];
+      scopeBits.push(currentOrigin + " vs. German");
+      if(currentGender !== "all" || currentCond !== "all"){
+        notes = "Specific origin (" + currentOrigin + ") is only available unconditioned at the national level.";
+      }
+    } else if(currentGender !== "all"){
+      const cg = N.cross_gender_origin;
+      if(currentGender === "female"){
+        refRate = cg.native_female.rate; refN = cg.native_female.n;
+        otherRate = cg.foreign_female.rate; otherN = cg.foreign_female.n;
+        scopeBits.push("Female names only");
+      } else {
+        refRate = cg.native_male.rate; refN = cg.native_male.n;
+        otherRate = cg.foreign_male.rate; otherN = cg.foreign_male.n;
+        scopeBits.push("Male names only");
+      }
+      if(currentCond !== "all"){
+        notes = "Gender × foreign × condition not available; showing combined-condition figures.";
+      }
+    } else {
+      otherRate = ovr.foreign; otherN = ovr.n_foreign;
+      if(currentCond !== "all"){
+        // Aggregate from state data
+        let nf=0, of_=0, ns=0, os_=0;
+        for(const k in DATA.states){
+          const s = DATA.states[k];
+          const refK  = currentCond==="c0" ? "native_c0"   : "native_c1";
+          const otK   = currentCond==="c0" ? "foreign_c0"  : "foreign_c1";
+          const refNK = currentCond==="c0" ? "n_native_c0" : "n_native_c1";
+          const otNK  = currentCond==="c0" ? "n_foreign_c0": "n_foreign_c1";
+          if(s[refK] !== undefined && s[refNK] > 0){ nf += s[refK]*s[refNK]; ns += s[refNK]; }
+          if(s[otK]  !== undefined && s[otNK]  > 0){ of_+= s[otK] *s[otNK];  os_+= s[otNK]; }
+        }
+        refRate = nf/ns; refN = ns;
+        otherRate = of_/os_; otherN = os_;
+        scopeBits.push(currentCond === "c0" ? "Without fee question" : "With fee question");
+      }
+    }
+
+    const disc = (refRate - otherRate) * 100;
+    return {
+      refLabel, otherLabel,
+      refRate, otherRate, refN, otherN,
+      disc,
+      scope: scopeBits.length ? scopeBits.join(" · ") : "All names · all conditions",
+      notes
+    };
+  }
+
+  function recolorMap(){
+    if(!svgPaths) return;
+    svgPaths.attr("fill", function(d){
+      const canon = canonicalName(d.__name);
+      if(!canon) return "#1a1a1a";
+      const m = computeStateMetric(canon);
+      return colorFor(m.disc);
+    });
+  }
+
+  function renderPanel(){
+    const eyebrow = document.getElementById("dsc-panel-eyebrow");
+    const nameEl  = document.getElementById("dsc-panel-name");
+    const statsEl = document.getElementById("dsc-stats");
+    const banLabel = document.getElementById("dsc-banner-label");
+    const banNum   = document.getElementById("dsc-banner-num");
+    const banExp   = document.getElementById("dsc-banner-exp");
+
+    // Reset banner styling each render (sports-overview view shrinks the font)
+    banNum.style.fontSize = "";
+
+    if(currentView === "sports" && selectedSport){
+      const sp = DATA.national.by_sport[selectedSport];
+      eyebrow.textContent = "Sport · National figures";
+      nameEl.textContent = selectedSport;
+      statsEl.innerHTML = `
+        <div class="dsc-stat-row">
+          <span class="dsc-stat-label">German-sounding senders</span>
+          <span class="dsc-stat-value">${fmtPct(sp.native_rate)}<span class="dsc-stat-n">n=${sp.n_native}</span></span>
+        </div>
+        <div class="dsc-stat-row">
+          <span class="dsc-stat-label">Foreign-sounding senders</span>
+          <span class="dsc-stat-value">${fmtPct(sp.foreign_rate)}<span class="dsc-stat-n">n=${sp.n_foreign}</span></span>
+        </div>
+        <div class="dsc-stat-row">
+          <span class="dsc-stat-label">All inquiries (this sport)</span>
+          <span class="dsc-stat-value">${fmtPct(sp.all)}<span class="dsc-stat-n">n=${sp.n.toLocaleString()}</span></span>
+        </div>
+        <div class="dsc-stat-row">
+          <span class="dsc-stat-label">Female-name senders</span>
+          <span class="dsc-stat-value">${fmtPct(sp.female)}<span class="dsc-stat-n">n=${sp.n_female}</span></span>
+        </div>
+        <div class="dsc-stat-row">
+          <span class="dsc-stat-label">Male-name senders</span>
+          <span class="dsc-stat-value">${fmtPct(sp.male)}<span class="dsc-stat-n">n=${sp.n_male}</span></span>
+        </div>`;
+      banLabel.textContent = "German − foreign gap";
+      banNum.textContent = fmtPp(sp.discrimination);
+      banNum.style.color = discColor(sp.discrimination);
+      banExp.textContent = sp.discrimination > 0
+        ? `Foreign-name senders received ${sp.discrimination.toFixed(1)} fewer positive replies per 100 inquiries in ${selectedSport.toLowerCase()}.`
+        : sp.discrimination < 0
+          ? `Foreign-name senders received ${Math.abs(sp.discrimination).toFixed(1)} more positive replies per 100 inquiries in ${selectedSport.toLowerCase()}.`
+          : `No measurable gap.`;
+      return;
+    }
+
+    if(currentView === "sports" && !selectedSport){
+      eyebrow.textContent = "Click a sport for details";
+      nameEl.textContent = "Sports overview";
+      const allSports = Object.entries(DATA.national.by_sport)
+        .sort((a,b) => b[1].discrimination - a[1].discrimination);
+      statsEl.innerHTML = allSports.map(([k,v]) =>
+        `<div class="dsc-stat-row">
+           <span class="dsc-stat-label">${k}</span>
+           <span class="dsc-stat-value" style="color:${discColor(v.discrimination)};">${fmtPp(v.discrimination)}<span class="dsc-stat-n">n=${v.n.toLocaleString()}</span></span>
+         </div>`
+      ).join("");
+      const discs = allSports.map(([k,v]) => v.discrimination);
+      const maxD = Math.max(...discs);
+      const minD = Math.min(...discs);
+      banLabel.textContent = "Range of discrimination gap";
+      banNum.textContent = `${fmtPp(minD)} → ${fmtPp(maxD)}`;
+      banNum.style.fontSize = "22px";
+      banNum.style.color = "var(--accent)";
+      banExp.textContent = "Most-discriminating sports at the top of the list.";
+      return;
+    }
+
+    if(currentView === "map" && selectedState){
+      const s = DATA.states[selectedState];
+      eyebrow.textContent = currentCond === "all" ? "Selected state" :
+                           currentCond === "c0" ? "Selected state · without fee question" :
+                                                  "Selected state · with fee question";
+      nameEl.textContent = selectedState;
+      const m = computeStateMetric(selectedState);
+      statsEl.innerHTML = `
+        <div class="dsc-stat-row">
+          <span class="dsc-stat-label">${m.refLabel} response rate</span>
+          <span class="dsc-stat-value">${fmtPct(m.refRate)}<span class="dsc-stat-n">n=${m.refN ?? '—'}</span></span>
+        </div>
+        <div class="dsc-stat-row">
+          <span class="dsc-stat-label">${m.otherLabel} response rate</span>
+          <span class="dsc-stat-value">${fmtPct(m.otherRate)}<span class="dsc-stat-n">n=${m.otherN ?? '—'}</span></span>
+        </div>
+        <div class="dsc-stat-row">
+          <span class="dsc-stat-label">All inquiries in this state</span>
+          <span class="dsc-stat-value">${fmtPct(s.all)}<span class="dsc-stat-n">n=${s.n_all}</span></span>
+        </div>`;
+      banLabel.textContent = `${m.refLabel} − ${m.otherLabel}`;
+      if(m.disc === null){
+        banNum.textContent = "—";
+        banNum.style.color = "var(--ink-soft)";
+        banExp.textContent = m.note ? m.note : "Cell size too small for a reliable estimate (n < 10).";
+      } else {
+        banNum.textContent = fmtPp(m.disc);
+        banNum.style.color = discColor(m.disc);
+        banExp.textContent = m.disc > 0
+          ? `${m.otherLabel} senders received ${m.disc.toFixed(1)} fewer positive replies per 100 inquiries.`
+          : m.disc < 0
+            ? `${m.otherLabel} senders received ${Math.abs(m.disc).toFixed(1)} more positive replies per 100 inquiries.`
+            : `No measurable gap.`;
+      }
+      return;
+    }
+
+    // Default: map view, no state selected → national
+    const m = computeNationalMetric();
+    eyebrow.textContent = "Germany · National figures";
+    nameEl.textContent = "All of Germany";
+    statsEl.innerHTML = `
+      <div class="dsc-stat-row">
+        <span class="dsc-stat-label">${m.refLabel} response rate</span>
+        <span class="dsc-stat-value">${fmtPct(m.refRate)}<span class="dsc-stat-n">n=${m.refN}</span></span>
+      </div>
+      <div class="dsc-stat-row">
+        <span class="dsc-stat-label">${m.otherLabel} response rate</span>
+        <span class="dsc-stat-value">${fmtPct(m.otherRate)}<span class="dsc-stat-n">n=${m.otherN}</span></span>
+      </div>
+      <div class="dsc-stat-row">
+        <span class="dsc-stat-label">Subset</span>
+        <span class="dsc-stat-value" style="font-size:13px;font-weight:500;">${m.scope}</span>
+      </div>`;
+    banLabel.textContent = `${m.refLabel} − ${m.otherLabel}`;
+    banNum.textContent = fmtPp(m.disc);
+    banNum.style.color = discColor(m.disc);
+    let exp = m.disc > 0
+      ? `${m.otherLabel} senders received ${m.disc.toFixed(1)} fewer positive replies per 100 inquiries.`
+      : m.disc < 0
+        ? `${m.otherLabel} senders received ${Math.abs(m.disc).toFixed(1)} more positive replies per 100 inquiries.`
+        : `No measurable gap.`;
+    if(m.notes) exp += " " + m.notes;
+    banExp.textContent = exp;
+  }
+
+  function renderBars(){
+    const el = document.getElementById("dsc-bars");
+    const N = DATA.national;
+    if(currentTab === "origin"){
+      const items = [
+        {name:"Turkish-sounding",   rate:N.overall.turkish,   n:N.overall.n_turkish},
+        {name:"Syrian-sounding",    rate:N.overall.syrian,    n:N.overall.n_syrian},
+        {name:"Ukrainian-sounding", rate:N.overall.ukrainian, n:N.overall.n_ukrainian},
+        {name:"German-sounding (reference)", rate:N.overall.native, n:N.overall.n_native, ref:true}
+      ];
+      const max = Math.max(...items.map(i=>i.rate));
+      el.innerHTML = items.map(it => {
+        const w = (it.rate/max)*100;
+        const gap = it.ref ? null : (N.overall.native - it.rate)*100;
+        return `
+          <div class="dsc-bar-row">
+            <div class="dsc-bar-top">
+              <span class="dsc-bar-name">${it.name}</span>
+              <span class="dsc-bar-val">${fmtPct(it.rate)}${gap !== null ? ` <span style="color:var(--accent);font-size:11px;">(${gap>=0?'+':''}${gap.toFixed(1)}pp gap)</span>`:''}</span>
+            </div>
+            <div class="dsc-bar-track"><div class="dsc-bar-fill" style="width:${w}%; background:${it.ref ? 'var(--accent-blue)' : 'var(--accent)'};"></div></div>
+            <div class="dsc-bar-meta">n = ${it.n.toLocaleString()}</div>
+          </div>`;
+      }).join("");
+    } else {
+      const sports = N.by_sport;
+      const items = Object.entries(sports).map(([k,v])=>({name:k, ...v}))
+        .sort((a,b) => b.discrimination - a.discrimination);
+      el.innerHTML = items.map(it => {
+        // Width of fill is proportional to absolute gap, capped at 20pp = 100%
+        const w = Math.min(Math.abs(it.discrimination)/20*100, 100);
+        const fillColor = it.discrimination > 0 ? "var(--accent)" : "var(--accent-blue)";
+        return `
+          <div class="dsc-bar-row">
+            <div class="dsc-bar-top">
+              <span class="dsc-bar-name">${it.name}</span>
+              <span class="dsc-bar-val" style="color:${discColor(it.discrimination)};">${fmtPp(it.discrimination)}</span>
+            </div>
+            <div class="dsc-bar-track"><div class="dsc-bar-fill" style="width:${w}%; background:${fillColor};"></div></div>
+            <div class="dsc-bar-meta">German ${fmtPct(it.native_rate)} · Foreign ${fmtPct(it.foreign_rate)} · n = ${it.n.toLocaleString()}</div>
+          </div>`;
+      }).join("");
+    }
+  }
+
+  function renderSportsGrid(){
+    const el = document.getElementById("dsc-sports-grid");
+    const sports = DATA.national.by_sport;
+    // Sort by discrimination gap (highest first), so most-discriminating sports are seen first
+    const items = Object.entries(sports).map(([k,v])=>({name:k, ...v}))
+      .sort((a,b)=> b.discrimination - a.discrimination);
+
+    el.innerHTML = items.map(it => {
+      const isSel = it.name === selectedSport;
+      const bandColor = colorFor(it.discrimination);
+      // Determine readable text color: dark backgrounds get white text
+      const useLight = it.discrimination > 9;
+      const textColor = useLight ? "#fff" : "#1a1a1a";
+      return `
+        <div class="dsc-sport-card ${isSel ? 'selected' : ''}" data-sport="${it.name}">
+          <div class="dsc-sport-band" style="background:${bandColor};color:${textColor};">
+            <span class="dsc-sport-band-label">Gap</span>${fmtPp(it.discrimination)}
+          </div>
+          <div class="dsc-sport-body">
+            <div class="dsc-sport-icon">${SPORT_ICONS[it.name] || ""}</div>
+            <div class="dsc-sport-name">${it.name}</div>
+            <div class="dsc-sport-rate">${fmtPct(it.all)}</div>
+            <div class="dsc-sport-rate-label">overall response</div>
+            <div class="dsc-sport-meta">German ${fmtPct(it.native_rate)} · Foreign ${fmtPct(it.foreign_rate)}</div>
+            <div class="dsc-sport-meta" style="margin-top:2px;">n = ${it.n.toLocaleString()}</div>
+          </div>
+        </div>`;
+    }).join("");
+
+    el.querySelectorAll(".dsc-sport-card").forEach(c => {
+      c.addEventListener("click", () => {
+        const sn = c.getAttribute("data-sport");
+        selectedSport = (selectedSport === sn) ? null : sn;
+        renderSportsGrid();
+        renderPanel();
+      });
+    });
+  }
+
+  function setView(v){
+    currentView = v;
+    document.querySelectorAll(".dsc-view-toggle button").forEach(b => {
+      b.classList.toggle("active", b.dataset.view === v);
+    });
+    document.getElementById("dsc-view-map-content").classList.toggle("dsc-hidden", v !== "map");
+    document.getElementById("dsc-view-sports-content").classList.toggle("dsc-hidden", v !== "sports");
+
+    const inSports = (v === "sports");
+    document.getElementById("dsc-cmp").disabled = inSports;
+    document.getElementById("dsc-gender").disabled = inSports || (currentCmp === "female_vs_male");
+    document.getElementById("dsc-cond").disabled = inSports;
+    document.getElementById("dsc-origin").disabled = inSports || (currentCmp === "female_vs_male");
+
+    if(v === "sports"){
+      selectedState = null;
+      if(svgPaths) svgPaths.classed("selected", false);
+      renderSportsGrid();
+    } else {
+      selectedSport = null;
+    }
+    renderPanel();
+  }
+
+  document.querySelectorAll(".dsc-view-toggle button").forEach(b => {
+    b.addEventListener("click", () => setView(b.dataset.view));
+  });
+  document.getElementById("dsc-cmp").addEventListener("change", e=>{
+    currentCmp = e.target.value;
+    if(currentCmp === "female_vs_male"){
+      currentGender = "all";
+      document.getElementById("dsc-gender").value = "all";
+      document.getElementById("dsc-gender").disabled = true;
+      currentOrigin = "all";
+      document.getElementById("dsc-origin").value = "all";
+      document.getElementById("dsc-origin").disabled = true;
+    } else {
+      document.getElementById("dsc-gender").disabled = false;
+      document.getElementById("dsc-origin").disabled = false;
+    }
+    recolorMap(); renderPanel();
+  });
+  document.getElementById("dsc-gender").addEventListener("change", e=>{
+    currentGender = e.target.value;
+    renderPanel();
+  });
+  document.getElementById("dsc-cond").addEventListener("change", e=>{
+    currentCond = e.target.value;
+    recolorMap(); renderPanel();
+  });
+  document.getElementById("dsc-origin").addEventListener("change", e=>{
+    currentOrigin = e.target.value;
+    renderPanel();
+  });
+  document.querySelectorAll(".dsc-tab").forEach(t=>{
+    t.addEventListener("click", ()=>{
+      document.querySelectorAll(".dsc-tab").forEach(x=>x.classList.remove("active"));
+      t.classList.add("active");
+      currentTab = t.dataset.tab;
+      renderBars();
+    });
+  });
+
+  const GEO_URLS = [
+    "https://cdn.jsdelivr.net/gh/isellsoap/deutschlandGeoJSON@main/2_bundeslaender/4_niedrig.geo.json",
+    "https://cdn.jsdelivr.net/gh/isellsoap/deutschlandGeoJSON@main/2_bundeslaender/3_mittel.geo.json"
+  ];
+  async function loadGeo(){
+    for(const url of GEO_URLS){
+      try{
+        const r = await fetch(url);
+        if(r.ok){ return await r.json(); }
+      } catch(e){}
+    }
+    throw new Error("Could not load Germany GeoJSON.");
+  }
+
+  function drawMap(geo){
+    const svg = d3.select("#dsc-svg");
+    const width = 600, height = 720;
+    const projection = d3.geoMercator().fitSize([width-20, height-20], geo);
+    const path = d3.geoPath(projection);
+
+    function nameOf(feature){
+      const p = feature.properties || {};
+      return p.name || p.NAME_1 || p.GEN || p.NAME || p.bundesland || null;
+    }
+
+    svgPaths = svg.selectAll("path")
+      .data(geo.features)
+      .enter().append("path")
+      .attr("class", "dsc-state")
+      .attr("d", path)
+      .each(function(d){ d.__name = nameOf(d); });
+
+    const tooltip = document.getElementById("dsc-tooltip");
+    const wrap = document.getElementById("dsc-canvas");
+
+    svgPaths
+      .on("mouseenter", function(event, d){
+        const canon = canonicalName(d.__name);
+        if(!canon) return;
+        const m = computeStateMetric(canon);
+        const discTxt = m.disc === null ? "n/a (small cell)" : fmtPp(m.disc);
+        tooltip.innerHTML = `<strong>${canon}</strong>
+          ${m.refLabel}: ${fmtPct(m.refRate)} · ${m.otherLabel}: ${fmtPct(m.otherRate)}<br>
+          Gap: <span class="dsc-t-num">${discTxt}</span>`;
+        tooltip.style.opacity = 1;
+      })
+      .on("mousemove", function(event){
+        const rect = wrap.getBoundingClientRect();
+        const x = event.clientX - rect.left + 12;
+        const y = event.clientY - rect.top + 12;
+        tooltip.style.left = x + "px";
+        tooltip.style.top = y + "px";
+      })
+      .on("mouseleave", function(){ tooltip.style.opacity = 0; })
+      .on("click", function(event, d){
+        const canon = canonicalName(d.__name);
+        if(!canon) return;
+        if(selectedState === canon){
+          selectedState = null;
+          d3.select(this).classed("selected", false);
+        } else {
+          svgPaths.classed("selected", false);
+          d3.select(this).classed("selected", true);
+          selectedState = canon;
+        }
+        renderPanel();
+      });
+
+    document.getElementById("dsc-loading").style.display = "none";
+    recolorMap();
+  }
+
+  renderPanel();
+  renderBars();
+  renderSportsGrid();
+  loadGeo()
+    .then(drawMap)
+    .catch(err => {
+      const wrap = document.getElementById("dsc-loading");
+      wrap.innerHTML = `<div style="text-align:center;font-style:normal;">
+        <div style="font-weight:700;margin-bottom:6px;color:var(--accent);">Map could not be loaded</div>
+        <div style="font-size:12px;">Try the "By sport" view above, or refresh the page.</div>
+      </div>`;
+      console.error(err);
+    });
+})();
+</script>
+
+</div><!-- end #dsc-map-root -->
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="more">
+        <a href="https://www.uis.no/nb/profile/cornel-maria-nesseler" data-email>Email</a>
+        <a href="https://www.uis.no/nb/profile/cornel-maria-nesseler">UiS profile</a>
+        <a href="https://www.researchgate.net/profile/Cornel-Nesseler">ResearchGate</a>
+        <a href="https://cmnesseler.weebly.com/uploads/1/4/0/5/140503508/cv.pdf">CV</a>
+      </p>
+      <p class="stamp">Cornel Nesseler, University of Stavanger. Last updated October 2026.</p>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>
