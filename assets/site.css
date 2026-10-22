@@ -638,6 +638,16 @@ a.title:hover { text-decoration-color: var(--link); }
 }
 
 .areas.spaced { margin-top: 2rem; }
+/* On the Research areas and Apps pages these titles are h2s, styled like the h3s on the homepage */
+.areas h2,
+.apps h2 {
+  margin: 0 0 0.5rem;
+  font-family: var(--sans);
+  font-size: 1.1875rem;
+  font-weight: 640;
+  line-height: 1.35;
+}
+.areas h2 a,
 .areas h3 a {
   color: var(--ink);
   font-size: inherit;
@@ -654,4 +664,130 @@ a.title:hover { text-decoration-color: var(--link); }
 
 @media (max-width: 47.99rem) {
   .shots img { max-width: calc(50% - 0.625rem); }
+}
+
+/* ---------- Home: featured study with its figure ---------- */
+
+.latest {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.75rem;
+}
+@media (min-width: 64rem) {
+  .latest {
+    grid-template-columns: minmax(0, 46rem) minmax(13rem, 1fr);
+    align-items: start;
+    gap: 2.5rem;
+  }
+}
+.latest .feature { max-width: none; }
+
+.replies {
+  max-width: 34rem;
+  margin: 0;
+  font-family: var(--sans);
+}
+.replies figcaption {
+  margin-bottom: 0.9rem;
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+.reply-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.2rem 0.75rem;
+  margin-bottom: 0.9rem;
+}
+.reply-label { font-size: 0.9375rem; line-height: 1.35; }
+.reply-value {
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.reply-track {
+  grid-column: 1 / -1;
+  height: 0.75rem;
+  border-radius: 4px;
+  background: #e6ecf1;
+}
+.reply-fill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent);
+}
+.reply-source {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* ---------- Home: the book ---------- */
+
+.book {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  max-width: 52rem;
+}
+.book:has(.book-cover) { grid-template-columns: 9rem minmax(0, 1fr); }
+.book-cover {
+  width: 9rem;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+}
+.book h3 { font-size: 1.375rem; }
+.book h3 a { color: var(--ink); text-decoration-color: rgb(29 93 147 / 0.45); }
+.book p { margin: 0 0 0.75rem; }
+/* Phones: a smaller cover beside the title, the description below at full width */
+@media (max-width: 35.99rem) {
+  .book:has(.book-cover) { grid-template-columns: 5.5rem minmax(0, 1fr); gap: 0 1rem; }
+  .book-cover { width: 5.5rem; grid-row: 1 / span 2; margin-bottom: 1rem; }
+  .book:has(.book-cover) > div { display: contents; }
+  .book:has(.book-cover) h3 { grid-column: 2; align-self: end; font-size: 1.25rem; }
+  .book:has(.book-cover) .byline { grid-column: 2; align-self: start; }
+  .book:has(.book-cover) > div > p:not(.byline) { grid-column: 1 / -1; }
+}
+
+/* ---------- Writing and media ---------- */
+
+.media-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0 2.5rem;
+  max-width: 64rem;
+}
+@media (min-width: 56rem) {
+  .media-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.media-cols h3 { margin: 1.5rem 0 0; }
+.media-cols .writing { margin-top: 0.6rem; }
+
+.press {
+  max-width: var(--measure);
+  margin: 1.75rem 0 0;
+  padding: 0.9rem 1.1rem;
+  border-left: 4px solid var(--accent);
+  background: var(--tint);
+  font-size: 1.0625rem;
+}
+.prose .press-plain { margin-top: 0; }
+
+/* Free-to-read copy next to a publication */
+.free {
+  margin-left: 0.35rem;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Screenshots that already include a phone frame */
+.shots img.framed {
+  border: 0;
+  border-radius: 0;
+  background: none;
 }

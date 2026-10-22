@@ -4,7 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Interactive map – Cornel Nesseler</title>
-  <meta name="description" content="Interactive map of discrimination in German amateur sports clubs, by state and by sport.">
+  <meta name="description" content="Positive replies to 7,051 inquiries sent to amateur sports clubs in Germany, by state and by sport, from Nesseler et al. (2026), PNAS Nexus.">
+  <link rel="canonical" href="https://cmnesseler.github.io/interactive-map.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cornel Nesseler">
+  <meta property="og:title" content="Discrimination in German sports clubs: interactive map">
+  <meta property="og:description" content="Positive replies to 7,051 inquiries sent to amateur sports clubs in Germany, by state and by sport, from Nesseler et al. (2026), PNAS Nexus.">
+  <meta property="og:url" content="https://cmnesseler.github.io/interactive-map.html">
+  <meta property="og:image" content="https://cmnesseler.github.io/assets/og-map.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#dbeaf6">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/site.css">
@@ -22,7 +32,7 @@
       <ul>
         <li><a href="./">Home</a></li>
         <li><a href="research-areas.html">Research areas</a></li>
-        <li><a href="selected-research.html" aria-current="true">Publications</a></li>
+        <li><a href="all-publications.html" aria-current="true">Publications</a></li>
         <li><a href="writing.html">Writing</a></li>
         <li><a href="data--resources.html">Data &amp; resources</a></li>
         <li><a href="apps.html">Apps</a></li>
@@ -32,8 +42,8 @@
   <nav class="subnav" aria-label="Publications">
     <div class="wrap">
       <ul>
-        <li><a href="selected-research.html">Selected research</a></li>
         <li><a href="all-publications.html">All publications</a></li>
+        <li><a href="selected-research.html">Selected research</a></li>
         <li><a href="work-in-progress.html">Work in progress</a></li>
         <li><a href="interactive-map.html" aria-current="page">Interactive map</a></li>
       </ul>
@@ -42,13 +52,15 @@
 
   <main id="main" class="wrap page">
     <h1>Interactive map</h1>
-    <p class="lede">Results of our field experiment with more than 8,000 sports clubs in Germany, by state and by sport. The full analysis is in the paper <a href="https://doi.org/10.1093/pnasnexus/pgag216">Knocking on sports clubs’ doors</a> (<i>PNAS Nexus</i>, 2026).</p>
+    <p class="lede">Results of our field experiment with more than 8,900 sports clubs in Germany, by state and by sport. The full analysis is in the paper <a href="https://doi.org/10.1093/pnasnexus/pgag216">Knocking on sports clubs’ doors</a> (<i>PNAS Nexus</i>, 2026).</p>
     <div class="widget">
 <!-- =============================================================
      GERMANY SPORTS CLUB DISCRIMINATION — INTERACTIVE WIDGET
      Self-contained HTML for embedding in Weebly.
      Paste the entire contents into a Weebly "Embed Code" element.
      ============================================================= -->
+<!-- On cmnesseler.github.io: D3 and the state outlines load from this site; states and sport cards
+     work with the keyboard; small labels have more contrast. Nothing else is changed. -->
 <div id="dsc-map-root">
 <style>
   #dsc-map-root, #dsc-map-root * { box-sizing: border-box; }
@@ -229,7 +241,7 @@
   }
   #dsc-map-root .dsc-sport-band-label {
     font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
-    font-weight: 600; opacity: .7; margin-right: 6px;
+    font-weight: 600; margin-right: 6px;
   }
   #dsc-map-root .dsc-sport-body { padding: 14px 14px 0; }
   #dsc-map-root .dsc-sport-icon {
@@ -248,11 +260,11 @@
   }
   #dsc-map-root .dsc-sport-rate-label {
     font-size: 10px; letter-spacing: 0.06em;
-    color: #999; font-family: "Helvetica Neue", Arial, sans-serif;
+    color: #717171; font-family: "Helvetica Neue", Arial, sans-serif;
     margin-bottom: 8px;
   }
   #dsc-map-root .dsc-sport-meta {
-    font-size: 10px; color: #999; font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 10px; color: #717171; font-family: "Helvetica Neue", Arial, sans-serif;
     letter-spacing: 0.04em;
   }
 
@@ -319,7 +331,7 @@
     font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums;
   }
   #dsc-map-root .dsc-stat-n {
-    font-size: 11px; color: #999; font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px; color: #717171; font-family: "Helvetica Neue", Arial, sans-serif;
     font-weight: 400; margin-left: 6px;
   }
 
@@ -373,7 +385,7 @@
     height: 100%; background: var(--accent); transition: width .35s ease;
   }
   #dsc-map-root .dsc-bar-meta {
-    font-size: 11px; color: #999; font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px; color: #717171; font-family: "Helvetica Neue", Arial, sans-serif;
     margin-top: 3px;
   }
 
@@ -397,6 +409,12 @@
   #dsc-map-root .dsc-tooltip .dsc-t-num { font-weight: 700; color: #ffb3b3; }
 
   #dsc-map-root .dsc-hidden { display: none !important; }
+
+  /* Keyboard focus */
+  #dsc-map-root .dsc-state:focus { outline: none; }
+  #dsc-map-root .dsc-state:focus-visible { stroke: var(--ink); stroke-width: 2.4; }
+  #dsc-map-root .dsc-sport-card:focus { outline: none; }
+  #dsc-map-root .dsc-sport-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 </style>
 
 <div class="dsc-header">
@@ -405,9 +423,9 @@
   <p class="dsc-subtitle">Response rates to email inquiries from senders with German- vs. foreign-sounding names</p>
 </div>
 
-<div class="dsc-view-toggle" role="tablist">
-  <button id="dsc-view-map" class="active" data-view="map">Map of Germany</button>
-  <button id="dsc-view-sports" data-view="sports">By sport</button>
+<div class="dsc-view-toggle">
+  <button type="button" id="dsc-view-map" class="active" data-view="map" aria-pressed="true">Map of Germany</button>
+  <button type="button" id="dsc-view-sports" data-view="sports" aria-pressed="false">By sport</button>
 </div>
 
 <div class="dsc-controls">
@@ -495,8 +513,8 @@
     </div>
 
     <div class="dsc-tabs">
-      <button class="dsc-tab active" data-tab="origin">By origin</button>
-      <button class="dsc-tab" data-tab="sport">By sport</button>
+      <button type="button" class="dsc-tab active" data-tab="origin" aria-pressed="true">By origin</button>
+      <button type="button" class="dsc-tab" data-tab="sport" aria-pressed="false">By sport</button>
     </div>
     <div class="dsc-bars" id="dsc-bars"></div>
   </div>
@@ -513,7 +531,7 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="assets/vendor/d3.v7.min.js"></script>
 <script>
 (function(){
   const DATA = {
@@ -732,6 +750,11 @@
       if(!canon) return "#1a1a1a";
       const m = computeStateMetric(canon);
       return colorFor(m.disc);
+    }).attr("aria-label", function(d){
+      const canon = canonicalName(d.__name);
+      if(!canon) return d.__name || "Unknown area";
+      const m = computeStateMetric(canon);
+      return canon + ": gap " + (m.disc === null ? "n/a (small cell)" : fmtPp(m.disc));
     });
   }
 
@@ -915,6 +938,13 @@
     }
   }
 
+  function readableOn(color){
+    const c = d3.rgb(color);
+    const lin = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    const L = 0.2126 * lin(c.r) + 0.7152 * lin(c.g) + 0.0722 * lin(c.b);
+    return 1.05 / (L + 0.05) >= (L + 0.05) / 0.0603 ? "#fff" : "#1a1a1a";
+  }
+
   function renderSportsGrid(){
     const el = document.getElementById("dsc-sports-grid");
     const sports = DATA.national.by_sport;
@@ -926,10 +956,9 @@
       const isSel = it.name === selectedSport;
       const bandColor = colorFor(it.discrimination);
       // Determine readable text color: dark backgrounds get white text
-      const useLight = it.discrimination > 9;
-      const textColor = useLight ? "#fff" : "#1a1a1a";
+      const textColor = readableOn(bandColor);
       return `
-        <div class="dsc-sport-card ${isSel ? 'selected' : ''}" data-sport="${it.name}">
+        <div class="dsc-sport-card ${isSel ? 'selected' : ''}" data-sport="${it.name}" tabindex="0" role="button" aria-pressed="${isSel}">
           <div class="dsc-sport-band" style="background:${bandColor};color:${textColor};">
             <span class="dsc-sport-band-label">Gap</span>${fmtPp(it.discrimination)}
           </div>
@@ -945,11 +974,19 @@
     }).join("");
 
     el.querySelectorAll(".dsc-sport-card").forEach(c => {
-      c.addEventListener("click", () => {
+      const choose = (byKeyboard) => {
         const sn = c.getAttribute("data-sport");
         selectedSport = (selectedSport === sn) ? null : sn;
         renderSportsGrid();
         renderPanel();
+        if(byKeyboard){
+          const again = el.querySelector('[data-sport="' + sn + '"]');
+          if(again) again.focus();
+        }
+      };
+      c.addEventListener("click", () => choose(false));
+      c.addEventListener("keydown", ev => {
+        if(ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); choose(true); }
       });
     });
   }
@@ -958,6 +995,7 @@
     currentView = v;
     document.querySelectorAll(".dsc-view-toggle button").forEach(b => {
       b.classList.toggle("active", b.dataset.view === v);
+      b.setAttribute("aria-pressed", String(b.dataset.view === v));
     });
     document.getElementById("dsc-view-map-content").classList.toggle("dsc-hidden", v !== "map");
     document.getElementById("dsc-view-sports-content").classList.toggle("dsc-hidden", v !== "sports");
@@ -970,7 +1008,7 @@
 
     if(v === "sports"){
       selectedState = null;
-      if(svgPaths) svgPaths.classed("selected", false);
+      if(svgPaths) svgPaths.classed("selected", false).attr("aria-pressed", "false");
       renderSportsGrid();
     } else {
       selectedSport = null;
@@ -1010,17 +1048,15 @@
   });
   document.querySelectorAll(".dsc-tab").forEach(t=>{
     t.addEventListener("click", ()=>{
-      document.querySelectorAll(".dsc-tab").forEach(x=>x.classList.remove("active"));
+      document.querySelectorAll(".dsc-tab").forEach(x=>{ x.classList.remove("active"); x.setAttribute("aria-pressed", "false"); });
       t.classList.add("active");
+      t.setAttribute("aria-pressed", "true");
       currentTab = t.dataset.tab;
       renderBars();
     });
   });
 
-  const GEO_URLS = [
-    "https://cdn.jsdelivr.net/gh/isellsoap/deutschlandGeoJSON@main/2_bundeslaender/4_niedrig.geo.json",
-    "https://cdn.jsdelivr.net/gh/isellsoap/deutschlandGeoJSON@main/2_bundeslaender/3_mittel.geo.json"
-  ];
+  const GEO_URLS = ["assets/vendor/germany-states.geo.json"];
   async function loadGeo(){
     for(const url of GEO_URLS){
       try{
@@ -1047,7 +1083,10 @@
       .enter().append("path")
       .attr("class", "dsc-state")
       .attr("d", path)
-      .each(function(d){ d.__name = nameOf(d); });
+      .each(function(d){ d.__name = nameOf(d); })
+      .attr("tabindex", 0)
+      .attr("role", "button")
+      .attr("aria-pressed", "false");
 
     const tooltip = document.getElementById("dsc-tooltip");
     const wrap = document.getElementById("dsc-canvas");
@@ -1082,8 +1121,30 @@
           d3.select(this).classed("selected", true);
           selectedState = canon;
         }
+        svgPaths.attr("aria-pressed", p => String(canonicalName(p.__name) === selectedState));
         renderPanel();
-      });
+      })
+      .on("keydown", function(event){
+        if(event.key === "Enter" || event.key === " "){
+          event.preventDefault();
+          this.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        }
+      })
+      .on("focus", function(event, d){
+        if(!this.matches(":focus-visible")) return;
+        const canon = canonicalName(d.__name);
+        if(!canon) return;
+        const m = computeStateMetric(canon);
+        const discTxt = m.disc === null ? "n/a (small cell)" : fmtPp(m.disc);
+        tooltip.innerHTML = `<strong>${canon}</strong>
+          ${m.refLabel}: ${fmtPct(m.refRate)} · ${m.otherLabel}: ${fmtPct(m.otherRate)}<br>
+          Gap: <span class="dsc-t-num">${discTxt}</span>`;
+        const rect = wrap.getBoundingClientRect(), box = this.getBoundingClientRect();
+        tooltip.style.left = Math.min(box.left - rect.left + box.width / 2, wrap.clientWidth - 240) + "px";
+        tooltip.style.top = (box.top - rect.top + box.height / 2) + "px";
+        tooltip.style.opacity = 1;
+      })
+      .on("blur", function(){ tooltip.style.opacity = 0; });
 
     document.getElementById("dsc-loading").style.display = "none";
     recolorMap();
@@ -1115,6 +1176,8 @@
         <a href="https://www.uis.no/nb/profile/cornel-maria-nesseler" data-email>Email</a>
         <a href="https://www.uis.no/nb/profile/cornel-maria-nesseler">UiS profile</a>
         <a href="https://www.researchgate.net/profile/Cornel-Nesseler">ResearchGate</a>
+        <a href="https://scholar.google.com/citations?user=R93XQHkAAAAJ&amp;hl=en">Google Scholar</a>
+        <a href="https://orcid.org/0000-0001-7900-4175">ORCID</a>
         <a href="files/cv.pdf">CV</a>
       </p>
       <p class="stamp">Cornel Nesseler, University of Stavanger. Last updated October 2026.</p>
